@@ -11,3 +11,11 @@ app.listen(PORT, () => {
 // Test DB connection
 import { connectToDatabase } from './config/db.js'
 connectToDatabase()
+
+// Routes
+app.get('/', (req, res) => {
+  res.send('Express funkar!')
+})
+
+import productsRouter from './routes/productsRouter.js'
+app.use('/products', productsRouter)
