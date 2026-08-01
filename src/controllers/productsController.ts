@@ -40,3 +40,21 @@ export const getAllProducts = async (req: Request, res: Response) => {
     res.status(500).json({ error: message })
   }
 }
+
+export const getProduct = async (req: Request, res: Response) => {
+  const id = req.params.id
+
+  try {
+    const [rows] = await db.query(
+      `
+    SELECT * FROM products 
+    WHERE id = ?`,
+      [id],
+    )
+
+    res.json(rows)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    res.status(500).json({ error: message })
+  }
+}
