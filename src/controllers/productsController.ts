@@ -9,7 +9,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
     let params: string[] = []
     let sql = `
     
-    SELECT * FROM products
+              SELECT * FROM products
     `
 
     // Använd URL:en följt av sökordet för att testa sökfunktionen
@@ -47,8 +47,8 @@ export const getProduct = async (req: Request, res: Response) => {
   try {
     const [rows] = await db.query(
       `
-    SELECT * FROM products 
-    WHERE id = ?`,
+              SELECT * FROM products 
+              WHERE id = ?`,
       [id],
     )
 
@@ -56,5 +56,38 @@ export const getProduct = async (req: Request, res: Response) => {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
+  }
+}
+
+export const createProduct = async (req: Request, res: Response) => {
+  // Object destructuring
+  const { title, description, stock, price } = req.body
+
+  // const title = req.body.title
+  // const description = req.body.description
+  // const price = req.body.price
+
+  // req.body = (request.body) is an object that contains the data sent in the request body.
+
+  try {
+    const sql = `
+              INSERT INTO products (title, description, stock, price)
+              VALUES (?, ?, ?, ?)`
+
+    const [result] = await db.query(sql, [title, description, stock, price])
+    console.log(result)
+    res.status(201).json({ message: 'Product created' })
+
+    // {
+    // 	"title": "Sagan om ringen",
+    // 	"description": "Fantasy av J.R. Tolkien",
+    // 	"stock": 5,
+    // 	"price": 255
+    // }
+  } catch (error: unknown) {
+    console.error(error)
+    res.status(500).json({
+      error: 'Failed to create product',
+    })
   }
 }
