@@ -2,6 +2,7 @@ import type { Request, Response } from 'express'
 import { db } from '../config/db.js'
 import type { ResultSetHeader } from 'mysql2'
 
+// GET /products
 export const getAllProducts = async (req: Request, res: Response) => {
   const search = req.query.search
   const sort = req.query.sort
@@ -10,65 +11,60 @@ export const getAllProducts = async (req: Request, res: Response) => {
     let params: string[] = []
     let sql = `
     
-              SELECT * FROM products
-    `
-
-    // Använd URL:en följt av sökordet för att testa sökfunktionen
-    // http://localhost:3000/products?search=
+              SELECT id,
+                     title,
+                     description,
+                     stock,
+                     price,
+                     image            AS image,
+                     created_date     AS created
+                    
+                FROM products`
 
     if (search) {
-      params = [`%${search}%`, `%${search}%`]
+      params = [`%${search}%`]
       sql += ` 
       
-              WHERE products.title LIKE ?
-              `
+              WHERE title  LIKE ?` // GET http://localhost:3000/products?search=keyword
     }
-
-    // http://localhost:3000/products?sort=asc
-    // http://localhost:3000/products?sort=desc
 
     if (sort) {
       sql +=
         sort == 'asc'
-          ? ' ORDER BY products.title ASC'
-          : ' ORDER BY products.title DESC'
+          ? ' ORDER BY title  ASC' // GET http://localhost:3000/products?sort=asc
+          : ' ORDER BY title DESC' // GET http://localhost:3000/products?sort=desc
     }
 
-    const [rows] = await db.query(sql, params)
-    res.json(rows)
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error'
-    res.status(500).json({ error: message })
-  }
-}
-
-export const getProduct = async (req: Request, res: Response) => {
-  const id = req.params.id
-
-  try {
-    const [rows] = await db.query(
-      `
-              SELECT * FROM products 
-              WHERE id = ?`,
-      [id],
-    )
-
-    res.json(rows)
+    const [result] = await db.query(sql, params)
+    res.json(result)
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
   }
 }
 
+// GET /products/:id
+export const getProduct = async (req: Request, res: Response) => {
+  const id = req.params.id
+
+  try {
+    const sql = `
+    
+              SELECT * FROM products 
+              WHERE id = ?`
+
+    const [result] = await db.query(sql, [id])
+    res.json(result)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    res.status(500).json({ error: message })
+  }
+}
+
+// POST /products
 export const createProduct = async (req: Request, res: Response) => {
   // Object destructuring
   const { title, description, stock, price } = req.body
-
-  // const title = req.body.title
-  // const description = req.body.description
-  // const price = req.body.price
-
-  // req.body = (request.body) is an object that contains the data sent in the request body.
 
   try {
     const sql = `
@@ -87,13 +83,12 @@ export const createProduct = async (req: Request, res: Response) => {
     // 	"price": 255
     // }
   } catch (error: unknown) {
-    console.error(error)
-    res.status(500).json({
-      error: 'Failed to create product',
-    })
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    res.status(500).json({ error: message })
   }
 }
 
+// PATCH /products/:id
 export const updateProduct = async (req: Request, res: Response) => {
   const id = req.params.id
   const { title, description, stock, price } = req.body
@@ -102,10 +97,12 @@ export const updateProduct = async (req: Request, res: Response) => {
     const sql = `
 
            UPDATE products
+
               SET title       = ?, 
                   description = ?, 
                   stock       = ?, 
                   price       = ?
+
             WHERE id          = ?`
 
     const [result] = await db.query<ResultSetHeader>(sql, [
@@ -126,13 +123,12 @@ export const updateProduct = async (req: Request, res: Response) => {
       message: 'Product updated',
     })
   } catch (error: unknown) {
-    const message =
-      error instanceof Error ? error.message : 'Failed to update product'
-
+    const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
   }
 }
 
+// DELETE /products/:id
 export const deleteProduct = async (req: Request, res: Response) => {
   const id = req.params.id
 
@@ -154,9 +150,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
       message: 'Product deleted',
     })
   } catch (error: unknown) {
-    const message =
-      error instanceof Error ? error.message : 'Failed to delete product'
-
+    const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
   }
 }
