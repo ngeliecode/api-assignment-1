@@ -71,6 +71,7 @@ export const createProduct = async (req: Request, res: Response) => {
 
   try {
     const sql = `
+    
               INSERT INTO products (title, description, stock, price)
               VALUES (?, ?, ?, ?)`
 
@@ -89,5 +90,30 @@ export const createProduct = async (req: Request, res: Response) => {
     res.status(500).json({
       error: 'Failed to create product',
     })
+  }
+}
+
+export const updateProduct = async (req: Request, res: Response) => {
+  const id = req.params.id
+  const { title, description, stock, price } = req.body
+
+  try {
+    const sql = `
+
+           UPDATE products
+              SET title       = ?, 
+                  description = ?, 
+                  stock       = ?, 
+                  price       = ?
+            WHERE id          = ?`
+
+    const [result] = await db.query(sql, [title, description, stock, price, id])
+    console.log(result)
+    res.status(200).json({ message: 'Product updated' })
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : 'Failed to update product'
+
+    res.status(500).json({ error: message })
   }
 }

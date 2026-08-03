@@ -3,6 +3,7 @@ import {
   createProduct,
   getAllProducts,
   getProduct,
+  updateProduct,
 } from '../controllers/productsController.js'
 const router = express.Router()
 
@@ -10,5 +11,6 @@ const router = express.Router()
 router.get('/', getAllProducts)
 router.get('/:id', getProduct)
 router.post('/', createProduct)
+router.patch('/:id', updateProduct)
 
 export default router
