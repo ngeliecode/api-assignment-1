@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express'
 import { db } from '../config/db.js'
+import type { ResultSetHeader } from 'mysql2'
 
 export const getAllProducts = async (req: Request, res: Response) => {
   const search = req.query.search
@@ -71,7 +72,7 @@ export const createProduct = async (req: Request, res: Response) => {
 
   try {
     const sql = `
-    
+
               INSERT INTO products (title, description, stock, price)
               VALUES (?, ?, ?, ?)`
 
@@ -107,12 +108,54 @@ export const updateProduct = async (req: Request, res: Response) => {
                   price       = ?
             WHERE id          = ?`
 
-    const [result] = await db.query(sql, [title, description, stock, price, id])
-    console.log(result)
-    res.status(200).json({ message: 'Product updated' })
+    const [result] = await db.query<ResultSetHeader>(sql, [
+      title,
+      description,
+      stock,
+      price,
+      id,
+    ])
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: 'Product not found',
+      })
+    }
+
+    res.status(200).json({
+      message: 'Product updated',
+    })
   } catch (error: unknown) {
     const message =
       error instanceof Error ? error.message : 'Failed to update product'
+
+    res.status(500).json({ error: message })
+  }
+}
+
+export const deleteProduct = async (req: Request, res: Response) => {
+  const id = req.params.id
+
+  try {
+    const sql = `
+    
+          DELETE FROM products
+          WHERE id = ?`
+
+    const [result] = await db.query<ResultSetHeader>(sql, [id])
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: 'Product not found',
+      })
+    }
+
+    res.status(200).json({
+      message: 'Product deleted',
+    })
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : 'Failed to delete product'
 
     res.status(500).json({ error: message })
   }
