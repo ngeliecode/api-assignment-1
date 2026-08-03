@@ -9,6 +9,6 @@ const router = express.Router()
 // Endpoints
 router.get('/', getAllProducts)
 router.get('/:id', getProduct)
-router.put('/:id', createProduct)
+router.post('/', createProduct)
 
 export default router
