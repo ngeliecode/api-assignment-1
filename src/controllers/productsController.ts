@@ -19,7 +19,8 @@ export const getAllProducts = async (req: Request, res: Response) => {
                      image            AS image,
                      created_date     AS created
                     
-                FROM products`
+                FROM products
+                `
 
     if (search) {
       params = [`%${search}%`]
@@ -49,7 +50,7 @@ export const getProduct = async (req: Request, res: Response) => {
 
   try {
     const sql = `
-    
+
               SELECT * FROM products 
               WHERE id = ?`
 
@@ -63,25 +64,25 @@ export const getProduct = async (req: Request, res: Response) => {
 
 // POST /products
 export const createProduct = async (req: Request, res: Response) => {
-  // Object destructuring
   const { title, description, stock, price } = req.body
 
   try {
     const sql = `
 
               INSERT INTO products (title, description, stock, price)
-              VALUES (?, ?, ?, ?)`
+              VALUES (?, ?, ?, ?)
+              `
 
-    const [result] = await db.query(sql, [title, description, stock, price])
+    const [result] = await db.query<ResultSetHeader>(sql, [
+      title,
+      description,
+      stock,
+      price,
+    ])
+
     console.log(result)
-    res.status(201).json({ message: 'Product created' })
 
-    // {
-    // 	"title": "Sagan om ringen",
-    // 	"description": "Fantasy av J.R. Tolkien",
-    // 	"stock": 5,
-    // 	"price": 255
-    // }
+    res.status(201).json({ message: 'Product created' })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
@@ -103,7 +104,8 @@ export const updateProduct = async (req: Request, res: Response) => {
                   stock       = ?, 
                   price       = ?
 
-            WHERE id          = ?`
+            WHERE id          = ?
+            `
 
     const [result] = await db.query<ResultSetHeader>(sql, [
       title,
@@ -124,7 +126,9 @@ export const updateProduct = async (req: Request, res: Response) => {
     })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
-    res.status(500).json({ error: message })
+    res.status(500).json({
+      error: message,
+    })
   }
 }
 
@@ -136,7 +140,8 @@ export const deleteProduct = async (req: Request, res: Response) => {
     const sql = `
     
           DELETE FROM products
-          WHERE id = ?`
+          WHERE id = ?
+          `
 
     const [result] = await db.query<ResultSetHeader>(sql, [id])
 
