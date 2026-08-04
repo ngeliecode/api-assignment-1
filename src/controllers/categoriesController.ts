@@ -71,3 +71,21 @@ export const updateCategory = async (req: Request, res: Response) => {
     res.status(500).json({ error: message })
   }
 }
+
+export const deleteCategory = async (req: Request, res: Response) => {
+  const id = req.params.id
+
+  try {
+    const sql = `
+
+            DELETE FROM categories
+            WHERE id = ?
+        `
+
+    const [result] = await db.query(sql, [id])
+    res.json(result)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    res.status(500).json({ error: message })
+  }
+}
