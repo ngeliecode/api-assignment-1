@@ -57,15 +57,38 @@ export const updateCategory = async (req: Request, res: Response) => {
   const name = req.body.name
 
   try {
+    const updates: string[] = []
+    const params: unknown[] = []
+
+    if (name !== undefined) {
+      updates.push('name = ?')
+      params.push(name)
+    }
+
+    if (updates.length === 0) {
+      return res.status(400).json({
+        message: 'No fields to update',
+      })
+    }
+
     const sql = `
 
             UPDATE categories
-            SET name = ?
+            SET ${updates.join(', ')}
             WHERE id = ?
         `
 
-    const [result] = await db.query(sql, [name, id])
-    res.json(result)
+    params.push(id)
+
+    console.log('SQL:', sql)
+    console.log('Updates:', updates)
+    console.log('Params:', params)
+
+    await db.query(sql, params)
+
+    res.status(200).json({
+      message: 'Category updated',
+    })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
