@@ -16,14 +16,17 @@ export const getAllCategories = async (req: Request, res: Response) => {
   }
 }
 
-export const getCategory = async (req: Request, res: Response) => {
+export const getProductsByCategory = async (req: Request, res: Response) => {
   const id = req.params.id
 
   try {
     const sql = `
 
-        SELECT * FROM categories 
-        WHERE id = ?`
+      SELECT products.* 
+        FROM products 
+        JOIN products_categories
+          ON products.id = products_categories.product_id
+       WHERE products_categories.category_id = ?`
 
     const [result] = await db.query(sql, [id])
     res.json(result)
