@@ -2,7 +2,6 @@ import type { Request, Response } from 'express'
 import { db } from '../config/db.js'
 import type { ResultSetHeader } from 'mysql2'
 
-// GET /products
 export const getAllProducts = async (req: Request, res: Response) => {
   const search = req.query.search
   const sort = req.query.sort
@@ -11,29 +10,17 @@ export const getAllProducts = async (req: Request, res: Response) => {
     let params: string[] = []
     let sql = `
     
-              SELECT id,
-                     title,
-                     description,
-                     stock,
-                     price,
-                     image            AS image,
-                     created_date     AS created
-                    
-                FROM products
-                `
+              SELECT * FROM products`
 
     if (search) {
       params = [`%${search}%`]
       sql += ` 
       
-              WHERE title  LIKE ?` // GET http://localhost:3000/products?search=keyword
+              WHERE title LIKE ?`
     }
 
     if (sort) {
-      sql +=
-        sort == 'asc'
-          ? ' ORDER BY title  ASC' // GET http://localhost:3000/products?sort=asc
-          : ' ORDER BY title DESC' // GET http://localhost:3000/products?sort=desc
+      sql += sort == 'asc' ? ' ORDER BY title ASC' : ' ORDER BY title DESC'
     }
 
     const [result] = await db.query(sql, params)
@@ -44,7 +31,6 @@ export const getAllProducts = async (req: Request, res: Response) => {
   }
 }
 
-// GET /products/:id
 export const getProduct = async (req: Request, res: Response) => {
   const id = req.params.id
 
@@ -52,7 +38,8 @@ export const getProduct = async (req: Request, res: Response) => {
     const sql = `
 
               SELECT * FROM products 
-              WHERE id = ?`
+              WHERE id = ?
+              `
 
     const [result] = await db.query(sql, [id])
     res.json(result)
@@ -62,73 +49,95 @@ export const getProduct = async (req: Request, res: Response) => {
   }
 }
 
-// POST /products
 export const createProduct = async (req: Request, res: Response) => {
-  const { title, description, stock, price } = req.body
+  const { title, description, stock, price, image } = req.body
 
   try {
     const sql = `
 
-              INSERT INTO products (title, description, stock, price)
-              VALUES (?, ?, ?, ?)
+              INSERT INTO products (title, description, stock, price, image)
+              VALUES (?, ?, ?, ?, ?)
               `
 
-    const [result] = await db.query<ResultSetHeader>(sql, [
+    const [result] = await db.query(sql, [
       title,
       description,
       stock,
       price,
+      image,
     ])
 
-    console.log(result)
-
-    res.status(201).json({ message: 'Product created' })
+    res.json(result)
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
   }
 }
 
-// PATCH /products/:id
 export const updateProduct = async (req: Request, res: Response) => {
+  // req        = Request objektet. Innehåller allt klienten skickar till servern.
+  // req.params = Hämtar värden från URL-parametrar, t.ex. /products/:id.
+  // req.body   = Hämtar data som skickas i requestens body (oftast JSON).
+  // req.query  = Hämtar query-parametrar från URL:en, t.ex. ?search=book&sort=asc.
   const id = req.params.id
-  const { title, description, stock, price } = req.body
+  const { title, description, stock, price, image } = req.body
 
   try {
-    const sql = `
+    const updates: string[] = []
+    const params: unknown[] = []
 
-           UPDATE products
+    if (title !== undefined) {
+      updates.push('title = ?')
+      params.push(title)
+    }
 
-              SET title       = ?, 
-                  description = ?, 
-                  stock       = ?, 
-                  price       = ?
+    if (description !== undefined) {
+      updates.push('description = ?')
+      params.push(description)
+    }
 
-            WHERE id          = ?
-            `
+    if (stock !== undefined) {
+      updates.push('stock = ?')
+      params.push(stock)
+    }
 
-    const [result] = await db.query<ResultSetHeader>(sql, [
-      title,
-      description,
-      stock,
-      price,
-      id,
-    ])
+    if (price !== undefined) {
+      updates.push('price = ?')
+      params.push(price)
+    }
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({
-        message: 'Product not found',
+    if (image !== undefined) {
+      updates.push('image = ?')
+      params.push(image)
+    }
+
+    if (updates.length === 0) {
+      return res.status(400).json({
+        message: 'No fields to update',
       })
     }
+
+    const sql = `
+
+             UPDATE products
+             SET ${updates.join(', ')}
+             WHERE id = ?
+        `
+
+    params.push(id)
+
+    console.log('SQL:', sql)
+    console.log('Updates:', updates)
+    console.log('Params:', params)
+
+    await db.query(sql, params)
 
     res.status(200).json({
       message: 'Product updated',
     })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
-    res.status(500).json({
-      error: message,
-    })
+    res.status(500).json({ error: message })
   }
 }
 
