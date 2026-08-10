@@ -7,22 +7,33 @@ export const getAllProducts = async (req: Request, res: Response) => {
   const sort = req.query.sort
 
   try {
-    let params: string[] = []
+    let params: unknown[] = []
     let sql = `
     
-              SELECT * FROM products`
+        SELECT * FROM products`
 
     if (search) {
       params = [`%${search}%`]
       sql += ` 
-      
-              WHERE title LIKE ?`
+        WHERE title LIKE ?`
     }
 
     if (sort) {
-      sql += sort == 'asc' ? ' ORDER BY title ASC' : ' ORDER BY title DESC'
+      sql +=
+        sort == 'asc'
+          ? ` 
+        ORDER BY title ASC`
+          : ` 
+        ORDER BY title DESC`
     }
 
+    // GET http://localhost:3000/products?search=keyword
+    // GET http://localhost:3000/products?sort=asc
+    // GET http://localhost:3000/products?sort=desc
+    // GET http://localhost:3000/products?search=keyword&sort=asc
+    // GET http://localhost:3000/products?search=keyword&sort=desc
+
+    console.log(sql)
     const [result] = await db.query(sql, params)
     res.json(result)
   } catch (error: unknown) {
