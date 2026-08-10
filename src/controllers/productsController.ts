@@ -20,7 +20,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
 
     if (sort) {
       sql +=
-        sort == 'asc'
+        sort === 'asc'
           ? ` 
         ORDER BY title ASC`
           : ` 
@@ -48,9 +48,8 @@ export const getProduct = async (req: Request, res: Response) => {
   try {
     const sql = `
 
-              SELECT * FROM products 
-              WHERE id = ?
-              `
+        SELECT * FROM products 
+        WHERE id = ?`
 
     const [result] = await db.query(sql, [id])
     res.json(result)
@@ -66,19 +65,15 @@ export const createProduct = async (req: Request, res: Response) => {
   try {
     const sql = `
 
-              INSERT INTO products (title, description, stock, price, image)
-              VALUES (?, ?, ?, ?, ?)
-              `
+        INSERT INTO products (title, description, stock, price, image)
+        VALUES (?, ?, ?, ?, ?)
+        `
 
-    const [result] = await db.query(sql, [
-      title,
-      description,
-      stock,
-      price,
-      image,
-    ])
+    await db.query(sql, [title, description, stock, price, image])
 
-    res.json(result)
+    res.status(201).json({
+      message: 'Product created',
+    })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
@@ -86,10 +81,6 @@ export const createProduct = async (req: Request, res: Response) => {
 }
 
 export const updateProduct = async (req: Request, res: Response) => {
-  // req        = Request objektet. Innehåller allt klienten skickar till servern.
-  // req.params = Hämtar värden från URL-parametrar, t.ex. /products/:id.
-  // req.body   = Hämtar data som skickas i requestens body (oftast JSON).
-  // req.query  = Hämtar query-parametrar från URL:en, t.ex. ?search=book&sort=asc.
   const id = req.params.id
   const { title, description, stock, price, image } = req.body
 
@@ -130,16 +121,16 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     const sql = `
 
-             UPDATE products
-             SET ${updates.join(', ')}
-             WHERE id = ?
+        UPDATE products
+        SET ${updates.join(', ')}
+        WHERE id = ?
         `
 
     params.push(id)
 
-    console.log('SQL:', sql)
-    console.log('Updates:', updates)
-    console.log('Params:', params)
+    // console.log('SQL:', sql)
+    // console.log('Updates:', updates)
+    // console.log('Params:', params)
 
     await db.query(sql, params)
 
@@ -152,16 +143,15 @@ export const updateProduct = async (req: Request, res: Response) => {
   }
 }
 
-// DELETE /products/:id
 export const deleteProduct = async (req: Request, res: Response) => {
   const id = req.params.id
 
   try {
     const sql = `
     
-          DELETE FROM products
-          WHERE id = ?
-          `
+        DELETE FROM products
+        WHERE id = ?
+        `
 
     const [result] = await db.query<ResultSetHeader>(sql, [id])
 
