@@ -1,12 +1,12 @@
 import type { Request, Response } from 'express'
 import { db } from '../config/db.js'
+import type { ResultSetHeader } from 'mysql2'
 
 export const getAllCategories = async (req: Request, res: Response) => {
   try {
     const sql = `
-
-            SELECT * FROM categories
-        `
+    
+        SELECT * FROM categories`
 
     const [result] = await db.query(sql)
     res.json(result)
@@ -22,9 +22,8 @@ export const getCategory = async (req: Request, res: Response) => {
   try {
     const sql = `
 
-            SELECT * FROM categories 
-            WHERE id = ?
-        `
+        SELECT * FROM categories 
+        WHERE id = ?`
 
     const [result] = await db.query(sql, [id])
     res.json(result)
@@ -40,12 +39,14 @@ export const createCategory = async (req: Request, res: Response) => {
   try {
     const sql = `
 
-            INSERT INTO categories (name)
-            VALUES (?)
-        `
+        INSERT INTO categories (name)
+        VALUES (?)`
 
-    const [result] = await db.query(sql, [name])
-    res.json(result)
+    await db.query(sql, [name])
+
+    res.status(201).json({
+      message: 'Category created',
+    })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
@@ -54,7 +55,7 @@ export const createCategory = async (req: Request, res: Response) => {
 
 export const updateCategory = async (req: Request, res: Response) => {
   const id = req.params.id
-  const name = req.body.name
+  const { name } = req.body
 
   try {
     const updates: string[] = []
@@ -73,18 +74,19 @@ export const updateCategory = async (req: Request, res: Response) => {
 
     const sql = `
 
-            UPDATE categories
-            SET ${updates.join(', ')}
-            WHERE id = ?
-        `
+        UPDATE categories
+        SET ${updates.join(', ')}
+        WHERE id = ?`
 
     params.push(id)
 
-    console.log('SQL:', sql)
-    console.log('Updates:', updates)
-    console.log('Params:', params)
+    const [result] = await db.query<ResultSetHeader>(sql, params)
 
-    await db.query(sql, params)
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: 'Category not found',
+      })
+    }
 
     res.status(200).json({
       message: 'Category updated',
@@ -101,12 +103,20 @@ export const deleteCategory = async (req: Request, res: Response) => {
   try {
     const sql = `
 
-            DELETE FROM categories
-            WHERE id = ?
-        `
+        DELETE FROM categories
+        WHERE id = ?`
 
-    const [result] = await db.query(sql, [id])
-    res.json(result)
+    const [result] = await db.query<ResultSetHeader>(sql, [id])
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: 'Category not found',
+      })
+    }
+
+    res.status(200).json({
+      message: 'Category deleted',
+    })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })

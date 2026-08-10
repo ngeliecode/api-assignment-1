@@ -128,11 +128,13 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     params.push(id)
 
-    // console.log('SQL:', sql)
-    // console.log('Updates:', updates)
-    // console.log('Params:', params)
+    const [result] = await db.query<ResultSetHeader>(sql, params)
 
-    await db.query(sql, params)
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: 'Product not found',
+      })
+    }
 
     res.status(200).json({
       message: 'Product updated',
