@@ -35,7 +35,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
 
     console.log(sql)
     const [result] = await db.query(sql, params)
-    res.json(result)
+    res.status(200).json(result)
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
@@ -52,7 +52,7 @@ export const getProduct = async (req: Request, res: Response) => {
         WHERE id = ?`
 
     const [result] = await db.query(sql, [id])
-    res.json(result)
+    res.status(200).json(result)
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })

@@ -9,7 +9,8 @@ export const getAllCategories = async (req: Request, res: Response) => {
         SELECT * FROM categories`
 
     const [result] = await db.query(sql)
-    res.json(result)
+
+    res.status(200).json(result)
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
@@ -22,14 +23,14 @@ export const getProductsByCategory = async (req: Request, res: Response) => {
   try {
     const sql = `
 
-      SELECT products.* 
+      SELECT * 
         FROM products 
         JOIN products_categories
           ON products.id = products_categories.product_id
        WHERE products_categories.category_id = ?`
 
     const [result] = await db.query(sql, [id])
-    res.json(result)
+    res.status(200).json(result)
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
