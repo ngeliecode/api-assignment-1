@@ -1,0 +1,3 @@
+insert into `products` (`created_date`, `description`, `id`, `image`, `price`, `stock`, `title`) values ('2026-07-30 13:29:04', 'En roman av Valérie Perrin', 1, NULL, '115.00', 4, 'Färskt vatten till blommorna');
+insert into `products` (`created_date`, `description`, `id`, `image`, `price`, `stock`, `title`) values ('2026-07-30 13:48:04', 'Psykologisk thriller av Gillian Flynn', 2, NULL, '159.00', 11, 'Gone girl');
+insert into `products` (`created_date`, `description`, `id`, `image`, `price`, `stock`, `title`) values ('2026-07-30 14:05:23', 'En mystisk thriller av Riley Sager', 3, NULL, '129.00', 8, 'Hon som blev kvar');
