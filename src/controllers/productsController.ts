@@ -70,6 +70,34 @@ export const createProduct = async (req: Request, res: Response) => {
   const { title, description, stock, price, image } = req.body
 
   try {
+    if (
+      title === undefined ||
+      description === undefined ||
+      stock === undefined ||
+      price === undefined
+    ) {
+      return res.status(400).json({
+        message: 'Title, description, stock and price are required',
+      })
+    }
+
+    if (
+      typeof title !== 'string' ||
+      typeof description !== 'string' ||
+      typeof stock !== 'number' ||
+      typeof price !== 'number'
+    ) {
+      return res.status(400).json({
+        message: 'Invalid data',
+      })
+    }
+
+    if (title.trim() === '' || description.trim() === '') {
+      return res.status(400).json({
+        message: 'Empty fields are not valid',
+      })
+    }
+
     const sql = `
 
         INSERT INTO products (title, description, stock, price, image)
