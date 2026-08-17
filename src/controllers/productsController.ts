@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express'
 import { db } from '../config/db.js'
-import type { ResultSetHeader } from 'mysql2'
+import type { ResultSetHeader, RowDataPacket } from 'mysql2'
 
 export const getAllProducts = async (req: Request, res: Response) => {
   const search = req.query.search
@@ -51,7 +51,14 @@ export const getProduct = async (req: Request, res: Response) => {
         SELECT * FROM products 
         WHERE id = ?`
 
-    const [result] = await db.query(sql, [id])
+    const [result] = await db.query<RowDataPacket[]>(sql, [id])
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        message: `Product with id ${id} not found`,
+      })
+    }
+
     res.status(200).json(result)
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
