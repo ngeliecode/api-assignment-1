@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express'
 import { db } from '../config/db.js'
-import type { ResultSetHeader } from 'mysql2'
+import type { ResultSetHeader, RowDataPacket } from 'mysql2'
 
 export const getAllCategories = async (req: Request, res: Response) => {
   try {
@@ -21,7 +21,20 @@ export const getProductsByCategory = async (req: Request, res: Response) => {
   const id = req.params.id
 
   try {
-    const sql = `
+    const categorySql = `
+
+        SELECT * FROM categories
+        WHERE id = ?`
+
+    const [categories] = await db.query<RowDataPacket[]>(categorySql, [id])
+
+    if (categories.length === 0) {
+      return res.status(404).json({
+        message: 'Category not found',
+      })
+    }
+
+    const productsSql = `
 
       SELECT * 
         FROM products 
@@ -29,8 +42,15 @@ export const getProductsByCategory = async (req: Request, res: Response) => {
           ON products.id = products_categories.product_id
        WHERE products_categories.category_id = ?`
 
-    const [result] = await db.query(sql, [id])
-    res.status(200).json(result)
+    const [products] = await db.query<RowDataPacket[]>(productsSql, [id])
+
+    if (products.length === 0) {
+      return res.status(200).json({
+        message: 'No products found for this category',
+      })
+    }
+
+    res.status(200).json(products)
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ error: message })
