@@ -61,6 +61,24 @@ export const createCategory = async (req: Request, res: Response) => {
   const name = req.body.name
 
   try {
+    if (name === undefined) {
+      return res.status(400).json({
+        message: 'Name is required',
+      })
+    }
+
+    if (typeof name !== 'string') {
+      return res.status(400).json({
+        message: 'Name must be a string',
+      })
+    }
+
+    if (name.trim() === '') {
+      return res.status(400).json({
+        message: 'Name cannot be empty',
+      })
+    }
+
     const sql = `
 
         INSERT INTO categories (name)
