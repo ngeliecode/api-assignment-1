@@ -22,9 +22,9 @@ export const getAllProducts = async (req: Request, res: Response) => {
       sql +=
         sort === 'asc'
           ? ` 
-        ORDER BY title ASC`
+        ORDER BY price ASC`
           : ` 
-        ORDER BY title DESC`
+        ORDER BY price DESC`
     }
 
     // GET http://localhost:3000/products?search=keyword
