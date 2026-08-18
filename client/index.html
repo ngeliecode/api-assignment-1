@@ -3,10 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>client</title>
+    <title>Annas Bokhandel</title>
   </head>
   <body>
     <div id="app">
+      <h1>Anna's Bokhandel</h1>
+      <section class="search-form">
+        <form>
+          <label for="product"></label>
+          <input
+            type="text"
+            id="search"
+            class="search"
+            name="search"
+            placeholder="Sök på bok eller författare"
+          />
+        </form>
+      </section>
       <section class="products"></section>
     </div>
     <script type="module" src="/src/main.ts"></script>
