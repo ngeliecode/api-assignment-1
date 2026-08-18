@@ -8,9 +8,7 @@ import {
 } from '../controllers/categoriesController.js'
 const router = express.Router()
 
-// Endpoints
 router.get('/', getAllCategories)
-//router.get('/:id', getCategory)
 router.get('/:id/products', getProductsByCategory)
 router.post('/', createCategory)
 router.patch('/:id', updateCategory)

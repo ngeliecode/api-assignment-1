@@ -13,8 +13,8 @@ import { connectToDatabase } from './config/db.js'
 connectToDatabase()
 
 // Middleware
-app.use(express.json()) // This specific middleware parses JSON string to Javascript Object
-//app.use(cors()) // This makes the Express server except request from other domains
+app.use(express.json())
+//app.use(cors())
 
 // Routes
 import productsRouter from './routes/productsRouter.js'

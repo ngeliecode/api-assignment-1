@@ -27,13 +27,6 @@ export const getAllProducts = async (req: Request, res: Response) => {
         ORDER BY price DESC`
     }
 
-    // GET http://localhost:3000/products?search=keyword
-    // GET http://localhost:3000/products?sort=asc
-    // GET http://localhost:3000/products?sort=desc
-    // GET http://localhost:3000/products?search=keyword&sort=asc
-    // GET http://localhost:3000/products?search=keyword&sort=desc
-
-    console.log(sql)
     const [result] = await db.query(sql, params)
     res.status(200).json(result)
   } catch (error: unknown) {
