@@ -1,3 +1,61 @@
+h1,
+p,
 body {
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
   font-family: monospace;
+  background-color: rgb(254, 250, 243);
+}
+
+header {
+  background-color: beige;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 3rem;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  color: rgb(82, 20, 20);
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h2 {
+  font-size: 1rem;
+}
+
+.search-form {
+  margin: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search {
+  width: 20rem;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.products {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.product {
+  background: beige;
+  padding: 1rem;
+}
+
+.product:hover {
+  background-color: rgb(190, 121, 121);
+  transform: translateY(-8px);
 }
