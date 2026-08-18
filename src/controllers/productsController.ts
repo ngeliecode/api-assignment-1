@@ -88,7 +88,7 @@ export const createProduct = async (req: Request, res: Response) => {
       typeof price !== 'number'
     ) {
       return res.status(400).json({
-        message: 'Invalid data',
+        message: 'Invalid data type',
       })
     }
 
@@ -120,6 +120,26 @@ export const updateProduct = async (req: Request, res: Response) => {
   const { title, description, stock, price, image } = req.body
 
   try {
+    if (
+      (title !== undefined && typeof title !== 'string') ||
+      (description !== undefined && typeof description !== 'string') ||
+      (stock !== undefined && typeof stock !== 'number') ||
+      (price !== undefined && typeof price !== 'number')
+    ) {
+      return res.status(400).json({
+        message: 'Invalid data type',
+      })
+    }
+
+    if (
+      (title !== undefined && title.trim() === '') ||
+      (description !== undefined && description.trim() === '')
+    ) {
+      return res.status(400).json({
+        message: 'Empty fields are not valid',
+      })
+    }
+
     const updates: string[] = []
     const params: unknown[] = []
 
@@ -150,7 +170,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     if (updates.length === 0) {
       return res.status(400).json({
-        message: 'No fields to update',
+        message: 'At least one field is required',
       })
     }
 
