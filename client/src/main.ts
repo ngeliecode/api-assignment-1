@@ -3,7 +3,7 @@ import { bookInfo } from './products'
 
 const getProducts = async (search = '') => {
   const productsContainer = document.querySelector('.products')
-  const searchForm = document.querySelector('.search-form form')
+  const searchForm = document.querySelector('.search-form')
 
   const response = await fetch(
     `http://localhost:3000/products?search=${search}`,
@@ -23,7 +23,6 @@ const getProducts = async (search = '') => {
         <p>${info.author}</p>
         <p>${info.format}</p>
         <p>${Number(product.price)} kr</p>
-        <button class="addBtn">Lägg till</button>
       </div>
     `
   })
@@ -39,3 +38,62 @@ const getProducts = async (search = '') => {
 }
 
 getProducts()
+
+const getCategories = async () => {
+  const response = await fetch('http://localhost:3000/categories')
+  const categories = await response.json()
+
+  const categoryNav = document.querySelector('.categories')
+
+  categories.forEach((category) => {
+    const link = document.createElement('a')
+
+    link.href = '#'
+    link.textContent = category.name
+    link.dataset.id = category.id.toString()
+
+    link.addEventListener('click', (event) => {
+      event.preventDefault()
+
+      getProductsByCategory(category.id.toString())
+    })
+
+    categoryNav.append(link)
+  })
+}
+
+getCategories()
+
+const allLink = document.querySelector('.all')
+
+allLink.addEventListener('click', (event) => {
+  event.preventDefault()
+
+  getProducts()
+})
+
+const getProductsByCategory = async (categoryId: string) => {
+  const response = await fetch(
+    `http://localhost:3000/categories/${categoryId}/products`,
+  )
+
+  const products = await response.json()
+
+  const productsContainer = document.querySelector('.products')
+
+  productsContainer.innerHTML = ''
+
+  products.forEach((product) => {
+    const info = bookInfo[product.id]
+
+    productsContainer.innerHTML += `
+      <div class="product">
+        <img src="${product.image}" alt="${product.title}">
+        <h2>${product.title}</h2>
+        <p>${info.author}</p>
+        <p>${info.format}</p>
+        <p>${Number(product.price)} kr</p>
+      </div>
+    `
+  })
+}
