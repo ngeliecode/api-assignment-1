@@ -16,11 +16,14 @@ allLink.addEventListener('click', (event) => {
   getProducts()
 })
 
-const searchIcon = document.querySelector('.search-icon')
+const header = document.querySelector('header')
 
-searchIcon.addEventListener('click', (event) => {
-  event.preventDefault()
+const openSearch = document.querySelector('.search-icon')
+openSearch?.addEventListener('click', () => {
+  header?.classList.add('search-open')
+})
 
-  const search = document.querySelector('.search-form')
-  search.classList.toggle('show')
+const closeSearch = document.querySelector('.close-search')
+closeSearch?.addEventListener('click', () => {
+  header?.classList.remove('search-open')
 })

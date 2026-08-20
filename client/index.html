@@ -15,6 +15,7 @@
     <div id="app">
       <header>
         <svg
+          class="menu-icon"
           xmlns="http://www.w3.org/2000/svg"
           width="32"
           height="32"
@@ -42,10 +43,27 @@
           <input
             type="text"
             id="search"
-            class="search"
+            class="search-input"
             name="search"
             placeholder="Sök på titel"
           />
+          <button type="button" class="close-search">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#000000"
+              stroke-width="0.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-x-icon lucide-x"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
         </form>
         <div class="icons">
           <svg
@@ -65,7 +83,7 @@
             <circle cx="11" cy="11" r="8" />
           </svg>
           <svg
-            class="bag"
+            class="basket-icon"
             xmlns="http://www.w3.org/2000/svg"
             width="30"
             height="30"
