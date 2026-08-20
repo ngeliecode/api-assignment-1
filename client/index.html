@@ -7,14 +7,36 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,300..700;1,300..700&family=Indie+Flower&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <div id="app">
       <header>
-        <h1>EN BOKHANDEL</h1>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#000000"
+          stroke-width="0.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-text-align-justify-icon lucide-text-align-justify"
+        >
+          <path d="M3 5h18" />
+          <path d="M3 12h18" />
+          <path d="M3 19h18" />
+        </svg>
+        <h1>
+          <span>En</span>
+          <span class="bokhandel">
+            <span>b</span><span>ok</span><span>ha</span><span>n</span
+            ><span>del</span></span
+          >
+        </h1>
         <form class="search-form">
           <label for="product"></label>
           <input
@@ -25,9 +47,46 @@
             placeholder="Sök på titel"
           />
         </form>
+        <div class="icons">
+          <svg
+            class="search-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            stroke-width="0.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-search-icon lucide-search"
+          >
+            <path d="m21 21-4.34-4.34" />
+            <circle cx="11" cy="11" r="8" />
+          </svg>
+          <svg
+            class="bag"
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            stroke-width="0.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-handbag-icon lucide-handbag"
+          >
+            <path
+              d="M2.048 18.566A2 2 0 0 0 4 21h16a2 2 0 0 0 1.952-2.434l-2-9A2 2 0 0 0 18 8H6a2 2 0 0 0-1.952 1.566z"
+            />
+            <path d="M8 11V6a4 4 0 0 1 8 0v5" />
+          </svg>
+        </div>
       </header>
-      <nav class="categories">
-        <a href="#" class="all">Alla</a>
+      <nav>
+        <div class="categories"><a href="#" class="all">Alla</a></div>
+        <a href="#" class="sort">Sortera på <span class="arrow">⌄</span></a>
       </nav>
       <main class="main">
         <section class="products"></section>
