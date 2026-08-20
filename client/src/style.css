@@ -5,16 +5,38 @@ body {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+  color: #000;
+}
+
 a,
 button,
 svg {
   cursor: url('../assets/pointer.svg'), pointer;
 }
 
+:root {
+  --color-black: #000;
+  --color-white: #fff;
+  --color-oyster: #8dc9f7;
+  --color-rhubarb: #d7866b;
+  --color-cheesecake: #f5e1ad;
+  --color-pumpkin: #ff6800;
+  --color-roast: #552f0f;
+  --color-pea: #85be00;
+  --color-latte: #ddcdae;
+  --color-grey: #828282;
+
+  --font-serif: 'Cormorant Infant', serif;
+  --font-sans: 'Montserrat', sans-serif;
+  --font-heading: 'Indie Flower', cursive;
+}
+
 body {
   min-height: 100vh;
   font-family: monospace;
-  background-color: #8dc9f7;
+  background-color: var(--color-oyster);
   padding: 1rem;
 }
 
@@ -22,16 +44,16 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: end;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--color-black);
   padding-bottom: 0.5rem;
 }
 
 h1 {
-  font-family: 'Indie Flower', cursive;
+  font-family: var(--font-heading);
   font-weight: 300;
   font-style: normal;
   text-transform: uppercase;
-  color: rgb(38, 9, 9);
+  color: var(--color-black);
 
   display: flex;
   align-items: end;
@@ -68,6 +90,49 @@ h1 .bokhandel span:nth-child(5) {
 
 header svg {
   width: 1.7rem;
+}
+
+.menu {
+  display: none;
+  background-color: var(--color-rhubarb);
+  padding: 8rem 1rem;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  gap: 4rem;
+}
+
+.menu.open {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+
+  flex-direction: column;
+}
+
+.close-icon {
+  display: none;
+}
+
+.menu-button {
+  position: relative;
+  z-index: 11;
+  background-color: inherit;
+  border: none;
+  padding: 0;
+}
+
+.menu-button.open .menu-icon {
+  display: none;
+}
+
+.menu-button.open .close-icon {
+  display: block;
+}
+
+body.menu-open {
+  overflow: hidden;
 }
 
 header.search-open > *:not(.search-form) {
@@ -133,19 +198,19 @@ nav {
   margin-bottom: 0.7rem;
 }
 
-nav a {
-  font-family: 'Cormorant Infant', serif;
+.categories a,
+.sort {
+  font-family: var(--font-serif);
   font-weight: 300;
   font-style: italic;
   font-size: 1.2rem;
   text-transform: lowercase;
-  text-decoration: none;
   letter-spacing: 0.1rem;
   color: inherit;
 }
 
-nav a:focus {
-  border-bottom: 1px solid black;
+.categories a:focus {
+  border-bottom: 1px solid var(--color-black);
 }
 
 nav .categories {
@@ -308,7 +373,6 @@ nav .sort .arrow {
   }
 
   .product h2 {
-    font-family: 'Times New Roman', Times, serif;
     font-size: 1.3rem;
     font-weight: 100;
     padding-bottom: 0.5rem;
