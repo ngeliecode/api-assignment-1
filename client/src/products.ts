@@ -11,4 +11,16 @@ export const bookInfo = {
     author: 'Riley Sager',
     format: 'Kartonnage',
   },
+  26: {
+    author: 'Freida McFadden',
+    format: 'Pocket',
+  },
+  27: {
+    author: 'TJ Clune',
+    format: 'Storocket',
+  },
+  28: {
+    author: 'Colleen Hoover',
+    format: 'Pocket',
+  },
 }
