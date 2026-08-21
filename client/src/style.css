@@ -193,7 +193,8 @@ nav .sort .arrow {
   flex-direction: column;
 }
 
-.close-icon {
+.menu-button > :last-child,
+.menu-button.open > :first-child {
   display: none;
 }
 
@@ -205,11 +206,7 @@ nav .sort .arrow {
   z-index: 11;
 }
 
-.menu-button.open .menu-icon {
-  display: none;
-}
-
-.menu-button.open .close-icon {
+.menu-button.open > :last-child {
   display: block;
 }
 
