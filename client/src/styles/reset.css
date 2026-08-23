@@ -1,0 +1,22 @@
+h1,
+h2,
+p,
+body {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  background-color: inherit;
+  border: none;
+  padding: 0;
+}
+
+input {
+  background-color: inherit;
+  border: none;
+  outline: none;
+}

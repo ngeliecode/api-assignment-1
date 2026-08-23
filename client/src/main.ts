@@ -1,4 +1,4 @@
-import './style.css'
+import './styles/main.css'
 import { getProducts, getCategories } from './api'
 
 const init = () => {

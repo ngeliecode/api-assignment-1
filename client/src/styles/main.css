@@ -1,26 +1,4 @@
-h1,
-h2,
-p,
-body {
-  margin: 0;
-}
-
-a {
-  text-decoration: none;
-  color: #000;
-}
-
-a,
-button,
-svg {
-  cursor: url('../assets/pointer.svg'), pointer;
-}
-
-button {
-  background-color: inherit;
-  border: none;
-  padding: 0;
-}
+@import 'reset.css';
 
 :root {
   --color-black: #000;
@@ -39,11 +17,37 @@ button {
   --font-heading: 'Indie Flower', cursive;
 }
 
+a,
+button,
+svg {
+  cursor: url('../assets/pointer-black.svg'), pointer;
+}
+
+footer a,
+footer button {
+  cursor: url('../assets/pointer-white.svg'), pointer;
+}
+
+/* margin, border, padding */
+header,
+nav,
+main {
+  margin-inline: 1rem;
+}
+header {
+  padding-bottom: 0.5rem;
+}
+main {
+  margin-bottom: 1rem;
+}
+footer {
+  padding: 2.5rem 1rem;
+}
+
 body {
   min-height: 100vh;
   font-family: monospace;
   background-color: var(--color-oyster);
-  padding: 1rem;
 }
 
 header {
@@ -51,7 +55,6 @@ header {
   justify-content: space-between;
   align-items: end;
   border-bottom: 1px solid var(--color-black);
-  padding-bottom: 0.5rem;
 }
 
 h1 {
@@ -121,10 +124,7 @@ header.search-open .search-form {
 .search-input {
   width: 100%;
   padding: 0.8rem;
-  background-color: inherit;
   border: 1px solid black;
-  outline: none;
-
   font-family: var(--font-sans);
   font-size: 0.8rem;
   font-weight: 400;
@@ -291,6 +291,47 @@ body.checkout-open {
 
 .product p:last-child {
   padding-bottom: 1rem;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  background-color: var(--color-roast);
+}
+
+footer h2 {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+footer h2,
+footer p,
+footer a,
+footer input,
+footer input::placeholder {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.07rem;
+  color: var(--color-cheesecake);
+}
+
+footer input {
+  width: 100%;
+}
+
+footer form {
+  display: flex;
+  border-bottom: 1px solid var(--color-cheesecake);
+  padding-bottom: 0.8rem;
+}
+
+.arrow {
+  width: 60px;
 }
 
 /* Tablet */
