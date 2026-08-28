@@ -4,7 +4,7 @@ export const initSort = () => {
   const allLink = document.querySelector('.all')
   const sortLink = document.querySelector('.sort-link')
   const closeSortBtn = document.querySelector('.close-sort button')
-  const sort = document.querySelector('.sort-overlay')
+  const sortMenu = document.querySelector('.sort-overlay')
 
   allLink.addEventListener('click', (event) => {
     event.preventDefault()
@@ -13,19 +13,15 @@ export const initSort = () => {
   })
 
   sortLink.addEventListener('click', () => {
-    sort.classList.add('open')
+    sortMenu.classList.add('open')
   })
 
   closeSortBtn.addEventListener('click', () => {
-    sort.classList.remove('open')
+    sortMenu.classList.remove('open')
   })
 
-  // CHECKBOX
-  const checkBox = document.querySelectorAll('.checkbox')
-  console.log(checkBox)
-
-  const sortButtons = document.querySelectorAll('.sort-option')
-  console.log(sortButtons)
+  const sortButtons =
+    document.querySelectorAll<HTMLButtonElement>('.sort-option')
 
   sortButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -38,6 +34,17 @@ export const initSort = () => {
 
       // Lägg till check på den man klickade på
       currentCheckbox?.classList.add('check')
+
+      // Läs av värdet
+      const sort = button.dataset.sort
+
+      // Klick på applicera-knappen
+      const apply = document.querySelector('.apply-button')
+      apply.addEventListener('click', () => {
+        getProducts('', sort)
+
+        sortMenu.classList.remove('open')
+      })
     })
   })
 }

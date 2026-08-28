@@ -1,11 +1,10 @@
 import { bookInfo } from './products'
 
-export const getProducts = async (search = '') => {
+export const getProducts = async (search = '', sort = '') => {
   const productsContainer = document.querySelector('.products')
-  const searchForm = document.querySelector('.search-form')
 
   const response = await fetch(
-    `http://localhost:3000/products?search=${search}`,
+    `http://localhost:3000/products?search=${search}&sort=${sort}`,
   )
 
   const products = await response.json()
@@ -26,13 +25,15 @@ export const getProducts = async (search = '') => {
     `
   })
 
+  const searchForm = document.querySelector('.search-form')
+
   searchForm.addEventListener('submit', (event) => {
     event.preventDefault()
 
     const searchInput = document.querySelector('#search') as HTMLInputElement
     const search = searchInput.value
 
-    getProducts(search)
+    getProducts(search, '')
   })
 }
 
