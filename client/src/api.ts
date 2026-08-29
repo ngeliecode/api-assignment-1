@@ -1,40 +1,12 @@
 import { bookInfo } from './products'
+import { renderProducts } from './ui/renderProducts'
 
 export const getProducts = async (search = '', sort = '') => {
-  const productsContainer = document.querySelector('.products')
-
   const response = await fetch(
     `http://localhost:3000/products?search=${search}&sort=${sort}`,
   )
-
   const products = await response.json()
-
-  productsContainer.innerHTML = ''
-
-  products.forEach((product) => {
-    const info = bookInfo[product.id]
-
-    productsContainer.innerHTML += `
-      <div class="product">
-        <img src="${product.image}" alt="${product.title}">
-        <h2>${product.title}</h2>
-        <p>${info.author}</p>
-        <p>${info.format}</p>
-        <p>${Number(product.price)} kr</p>
-      </div>
-    `
-  })
-
-  const searchForm = document.querySelector('.search-form')
-
-  searchForm.addEventListener('submit', (event) => {
-    event.preventDefault()
-
-    const searchInput = document.querySelector('#search') as HTMLInputElement
-    const search = searchInput.value
-
-    getProducts(search, '')
-  })
+  renderProducts(products)
 }
 
 export const getCategories = async () => {
