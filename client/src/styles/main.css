@@ -143,8 +143,8 @@ nav {
   margin-bottom: 0.7rem;
 }
 
-nav .categories a,
-nav .sort a {
+nav .categories button,
+nav .sort {
   font-family: var(--font-serif);
   font-weight: 300;
   font-style: italic;
@@ -154,7 +154,7 @@ nav .sort a {
   color: inherit;
 }
 
-.categories a:focus {
+.categories button:focus {
   border-bottom: 1px solid var(--color-black);
 }
 
@@ -254,11 +254,11 @@ body.checkout-open {
   overflow: hidden;
 }
 
-.sort-overlay {
+.sort-menu {
   display: none;
 }
 
-.sort-overlay.open {
+.sort-menu.open {
   display: flex;
   flex-direction: column;
 
@@ -278,7 +278,7 @@ body.checkout-open {
   align-self: flex-end;
 }
 
-.close-sort button svg {
+.close-sort svg {
   width: 29px;
   height: 29px;
   stroke-width: 0.6;
@@ -330,13 +330,11 @@ body.checkout-open {
   text-transform: lowercase;
 }
 
-.apply-sort {
-  margin: auto 0.5rem 0.5rem;
-}
-
-.apply-button {
+/* apply sort button */
+.apply {
   border: 1px solid var(--color-black);
   padding: 0.6875rem;
+  margin: auto 0.5rem 0.5rem;
   width: 100%;
 
   text-transform: uppercase;

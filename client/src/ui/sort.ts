@@ -1,29 +1,28 @@
 import { getProducts } from '../api'
 
 export const initSort = () => {
-  const allLink = document.querySelector('.all')
-  const sortLink = document.querySelector('.sort-link')
-  const closeSortBtn = document.querySelector('.close-sort button')
-  const sortMenu = document.querySelector('.sort-overlay')
-
-  allLink.addEventListener('click', (event) => {
-    event.preventDefault()
-
+  // Hör till kategorinavigationen?
+  const showAllCategoriesBtn = document.querySelector<HTMLButtonElement>('.all')
+  showAllCategoriesBtn.addEventListener('click', () => {
     getProducts()
   })
 
-  sortLink.addEventListener('click', () => {
+  const sortMenu = document.querySelector<HTMLElement>('.sort-menu')
+
+  const openSortMenuBtn = document.querySelector<HTMLButtonElement>('.sort')
+  openSortMenuBtn.addEventListener('click', () => {
     sortMenu.classList.add('open')
   })
 
-  closeSortBtn.addEventListener('click', () => {
+  const closeSortMenuBtn = document.querySelector('.close-sort')
+  closeSortMenuBtn.addEventListener('click', () => {
     sortMenu.classList.remove('open')
   })
 
-  const sortButtons =
+  const sortOptionButtons =
     document.querySelectorAll<HTMLButtonElement>('.sort-option')
 
-  sortButtons.forEach((button) => {
+  sortOptionButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const currentCheckbox = button.querySelector('.checkbox')
 
@@ -39,7 +38,7 @@ export const initSort = () => {
       const sort = button.dataset.sort
 
       // Klick på applicera-knappen
-      const apply = document.querySelector('.apply-button')
+      const apply = document.querySelector('.apply')
       apply.addEventListener('click', () => {
         getProducts('', sort)
 

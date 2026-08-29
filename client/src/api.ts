@@ -44,19 +44,16 @@ export const getCategories = async () => {
   const categoryLinks = document.querySelector('.categories')
 
   categories.forEach((category) => {
-    const link = document.createElement('a')
-
-    link.href = '#'
-    link.textContent = category.name
-    link.dataset.id = category.id.toString()
-
-    link.addEventListener('click', (event) => {
+    const button = document.createElement('button')
+    button.textContent = category.name
+    button.dataset.id = category.id.toString()
+    button.addEventListener('click', (event) => {
       event.preventDefault()
 
       getProductsByCategory(category.id.toString())
     })
 
-    categoryLinks.append(link)
+    categoryLinks.append(button)
   })
 }
 
