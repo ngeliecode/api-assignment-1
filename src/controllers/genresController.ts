@@ -2,11 +2,11 @@ import type { Request, Response } from 'express'
 import { db } from '../config/db.js'
 import type { ResultSetHeader, RowDataPacket } from 'mysql2'
 
-export const getAllCategories = async (req: Request, res: Response) => {
+export const getAllGenres = async (req: Request, res: Response) => {
   try {
     const sql = `
     
-        SELECT * FROM categories`
+        SELECT * FROM genres`
 
     const [result] = await db.query(sql)
 
@@ -17,20 +17,20 @@ export const getAllCategories = async (req: Request, res: Response) => {
   }
 }
 
-export const getProductsByCategory = async (req: Request, res: Response) => {
+export const getProductsByGenre = async (req: Request, res: Response) => {
   const id = req.params.id
 
   try {
-    const categorySql = `
+    const genreSql = `
 
-        SELECT * FROM categories
+        SELECT * FROM genres
         WHERE id = ?`
 
-    const [categories] = await db.query<RowDataPacket[]>(categorySql, [id])
+    const [genres] = await db.query<RowDataPacket[]>(genreSql, [id])
 
-    if (categories.length === 0) {
+    if (genres.length === 0) {
       return res.status(404).json({
-        message: 'Category not found',
+        message: 'Genre not found',
       })
     }
 
@@ -38,15 +38,15 @@ export const getProductsByCategory = async (req: Request, res: Response) => {
 
       SELECT * 
         FROM products 
-        JOIN products_categories
-          ON products.id = products_categories.product_id
-       WHERE products_categories.category_id = ?`
+        JOIN products_genres
+          ON products.id = products_genres.product_id
+       WHERE products_genres.genre_id = ?`
 
     const [products] = await db.query<RowDataPacket[]>(productsSql, [id])
 
     if (products.length === 0) {
       return res.status(200).json({
-        message: 'No products found for this category',
+        message: 'No products found for this genre',
       })
     }
 
@@ -57,7 +57,7 @@ export const getProductsByCategory = async (req: Request, res: Response) => {
   }
 }
 
-export const createCategory = async (req: Request, res: Response) => {
+export const createGenre = async (req: Request, res: Response) => {
   const name = req.body.name
 
   try {
@@ -81,13 +81,13 @@ export const createCategory = async (req: Request, res: Response) => {
 
     const sql = `
 
-        INSERT INTO categories (name)
+        INSERT INTO genres (name)
         VALUES (?)`
 
     await db.query(sql, [name])
 
     res.status(201).json({
-      message: 'Category created',
+      message: 'Genre created',
     })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
@@ -95,7 +95,7 @@ export const createCategory = async (req: Request, res: Response) => {
   }
 }
 
-export const updateCategory = async (req: Request, res: Response) => {
+export const updateGenre = async (req: Request, res: Response) => {
   const id = req.params.id
   const { name } = req.body
 
@@ -116,7 +116,7 @@ export const updateCategory = async (req: Request, res: Response) => {
 
     const sql = `
 
-        UPDATE categories
+        UPDATE genres
         SET ${updates.join(', ')}
         WHERE id = ?`
 
@@ -126,12 +126,12 @@ export const updateCategory = async (req: Request, res: Response) => {
 
     if (result.affectedRows === 0) {
       return res.status(404).json({
-        message: 'Category not found',
+        message: 'Genre not found',
       })
     }
 
     res.status(200).json({
-      message: 'Category updated',
+      message: 'Genre updated',
     })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
@@ -139,25 +139,25 @@ export const updateCategory = async (req: Request, res: Response) => {
   }
 }
 
-export const deleteCategory = async (req: Request, res: Response) => {
+export const deleteGenre = async (req: Request, res: Response) => {
   const id = req.params.id
 
   try {
     const sql = `
 
-        DELETE FROM categories
+        DELETE FROM genres
         WHERE id = ?`
 
     const [result] = await db.query<ResultSetHeader>(sql, [id])
 
     if (result.affectedRows === 0) {
       return res.status(404).json({
-        message: 'Category not found',
+        message: 'Genre not found',
       })
     }
 
     res.status(200).json({
-      message: 'Category deleted',
+      message: 'Genre deleted',
     })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'

@@ -21,5 +21,5 @@ app.use(cors())
 import productsRouter from './routes/productsRouter.js'
 app.use('/products', productsRouter)
 
-import categoriesRouter from './routes/categoriesRouter.js'
-app.use('/categories', categoriesRouter)
+import genresRouter from './routes/genresRouter.js'
+app.use('/genres', genresRouter)

@@ -1,4 +1,4 @@
-import { bookInfo } from './products'
+import { productInfo } from './products'
 import { renderProducts } from './ui/renderProducts'
 
 export const getProducts = async (search = '', sort = '') => {
@@ -9,29 +9,29 @@ export const getProducts = async (search = '', sort = '') => {
   renderProducts(products)
 }
 
-export const getCategories = async () => {
-  const response = await fetch('http://localhost:3000/categories')
-  const categories = await response.json()
+export const getGenres = async () => {
+  const response = await fetch('http://localhost:3000/genres')
+  const genres = await response.json()
 
-  const categoryLinks = document.querySelector('.categories')
+  const genreLinks = document.querySelector('.genres')
 
-  categories.forEach((category) => {
+  genres.forEach((genre) => {
     const button = document.createElement('button')
-    button.textContent = category.name
-    button.dataset.id = category.id.toString()
+    button.textContent = genre.name
+    button.dataset.id = genre.id.toString()
     button.addEventListener('click', (event) => {
       event.preventDefault()
 
-      getProductsByCategory(category.id.toString())
+      getProductsByGenre(genre.id.toString())
     })
 
-    categoryLinks.append(button)
+    genreLinks.append(button)
   })
 }
 
-export const getProductsByCategory = async (categoryId: string) => {
+export const getProductsByGenre = async (genreId: string) => {
   const response = await fetch(
-    `http://localhost:3000/categories/${categoryId}/products`,
+    `http://localhost:3000/genres/${genreId}/products`,
   )
 
   const products = await response.json()
@@ -41,7 +41,7 @@ export const getProductsByCategory = async (categoryId: string) => {
   productsContainer.innerHTML = ''
 
   products.forEach((product) => {
-    const info = bookInfo[product.id]
+    const info = productInfo[product.id]
 
     productsContainer.innerHTML += `
       <div class="product">
