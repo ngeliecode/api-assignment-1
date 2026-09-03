@@ -421,6 +421,13 @@ footer input::placeholder {
 
 footer input {
   width: 100%;
+
+  background-color: inherit;
+  border: none;
+}
+
+footer input:focus {
+  outline: none;
 }
 
 footer form {
