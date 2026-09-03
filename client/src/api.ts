@@ -1,4 +1,3 @@
-import { productInfo } from './products'
 import { renderProducts } from './ui/renderProducts'
 
 export const getProducts = async (search = '', sort = '') => {
@@ -41,14 +40,10 @@ export const getProductsByGenre = async (genreId: string) => {
   productsContainer.innerHTML = ''
 
   products.forEach((product) => {
-    const info = productInfo[product.id]
-
     productsContainer.innerHTML += `
       <div class="product">
         <img src="${product.image}" alt="${product.title}">
         <h2>${product.title}</h2>
-        <p>${info.author}</p>
-        <p>${info.format}</p>
         <p>${Number(product.price)} kr</p>
       </div>
     `
