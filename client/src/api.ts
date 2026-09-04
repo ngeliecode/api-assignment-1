@@ -29,11 +29,9 @@ export const fetchGenres = async () => {
   }
 }
 
-export const fetchProductsByGenre = async (genreId: string) => {
+export const fetchProductsByGenre = async (id: string) => {
   try {
-    const response = await fetch(
-      `http://localhost:3000/genres/${genreId}/products`,
-    )
+    const response = await fetch(`http://localhost:3000/genres/${id}/products`)
     const products = await response.json()
     renderProductsByGenre(products)
   } catch (error) {

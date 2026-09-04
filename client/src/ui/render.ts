@@ -1,4 +1,4 @@
-import { fetchProducts, fetchProductsByGenre } from '../api'
+import { addEvents } from '../ui/events'
 
 export function renderProducts(products) {
   const productsContainer = document.querySelector<HTMLElement>('.products')
@@ -27,19 +27,7 @@ export function renderGenres(genres) {
     )
     .join('')
 
-  // Extract later?
-  const showAllGenresBtn = document.querySelector<HTMLButtonElement>('.all')
-  showAllGenresBtn.addEventListener('click', () => {
-    fetchProducts()
-  })
-
-  genreLinks.querySelectorAll('button').forEach((button) => {
-    button.addEventListener('click', (event) => {
-      event.preventDefault()
-
-      fetchProductsByGenre(button.dataset.id)
-    })
-  })
+  addEvents()
 }
 
 export function renderProductsByGenre(products) {
