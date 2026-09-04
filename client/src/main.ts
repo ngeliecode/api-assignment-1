@@ -1,5 +1,5 @@
 import './styles/main.css'
-import { fetchProducts, getGenres } from './api'
+import { fetchProducts, fetchGenres } from './api'
 import { initSearch } from './ui/search'
 import { initMenu } from './ui/menu'
 import { initCheckout } from './ui/checkout'
@@ -8,7 +8,7 @@ import { initSort } from './ui/sort'
 const init = () => {
   // API
   fetchProducts()
-  getGenres()
+  fetchGenres()
 
   // UI
   initSearch()

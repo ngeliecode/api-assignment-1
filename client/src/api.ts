@@ -1,6 +1,4 @@
-import { renderProducts } from './ui/renderProducts'
-
-const productsElement = document.querySelector('.products')
+import { renderProducts, renderGenres } from './ui/render'
 
 export const fetchProducts = async (search = '', sort = '') => {
   try {
@@ -10,30 +8,17 @@ export const fetchProducts = async (search = '', sort = '') => {
     const products = await response.json()
     renderProducts(products)
   } catch (error) {
+    const productsElement = document.querySelector('.products')
     productsElement.innerHTML =
       'Opps something when wrong. Please try again later!'
     console.log(error)
   }
 }
 
-export const getGenres = async () => {
+export const fetchGenres = async () => {
   const response = await fetch('http://localhost:3000/genres')
   const genres = await response.json()
-
-  const genreLinks = document.querySelector('.genres')
-
-  genres.forEach((genre) => {
-    const button = document.createElement('button')
-    button.textContent = genre.name
-    button.dataset.id = genre.id.toString()
-    button.addEventListener('click', (event) => {
-      event.preventDefault()
-
-      fetchProductsByGenre(genre.id.toString())
-    })
-
-    genreLinks.append(button)
-  })
+  renderGenres(genres)
 }
 
 export const fetchProductsByGenre = async (genreId: string) => {
