@@ -16,9 +16,13 @@ export const fetchProducts = async (search = '', sort = '') => {
 }
 
 export const fetchGenres = async () => {
-  const response = await fetch('http://localhost:3000/genres')
-  const genres = await response.json()
-  renderGenres(genres)
+  try {
+    const response = await fetch('http://localhost:3000/genres')
+    const genres = await response.json()
+    renderGenres(genres)
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const fetchProductsByGenre = async (genreId: string) => {
