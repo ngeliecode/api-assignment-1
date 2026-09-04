@@ -31,3 +31,19 @@ export function renderGenres(genres) {
     genreLinks.append(button)
   })
 }
+
+export function renderProductsByGenre(products) {
+  const productsContainer = document.querySelector('.products')
+
+  productsContainer.innerHTML = ''
+
+  products.forEach((product) => {
+    productsContainer.innerHTML += `
+      <div class="product">
+        <img src="${product.image}" alt="${product.title}">
+        <h2>${product.title}</h2>
+        <p>${Number(product.price)} kr</p>
+      </div>
+    `
+  })
+}
