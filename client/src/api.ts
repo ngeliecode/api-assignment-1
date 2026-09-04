@@ -4,12 +4,17 @@ import {
   renderProductsByGenre,
 } from './ui/render'
 
+const API_URL = 'http://localhost:3000'
+const PRODUCTS_URL = API_URL + '/products'
+const GENRES_URL = API_URL + '/genres'
+
 export const fetchProducts = async (search = '', sort = '') => {
   try {
     const response = await fetch(
-      `http://localhost:3000/products?search=${search}&sort=${sort}`,
+      PRODUCTS_URL + `?search=${search}&sort=${sort}`,
     )
     const products = await response.json()
+
     renderProducts(products)
   } catch (error) {
     const productsElement = document.querySelector('.products')
@@ -21,8 +26,9 @@ export const fetchProducts = async (search = '', sort = '') => {
 
 export const fetchGenres = async () => {
   try {
-    const response = await fetch('http://localhost:3000/genres')
+    const response = await fetch(GENRES_URL)
     const genres = await response.json()
+
     renderGenres(genres)
   } catch (error) {
     console.log(error)
@@ -31,7 +37,7 @@ export const fetchGenres = async () => {
 
 export const fetchProductsByGenre = async (id: string) => {
   try {
-    const response = await fetch(`http://localhost:3000/genres/${id}/products`)
+    const response = await fetch(GENRES_URL + `/${id}/products`)
     const products = await response.json()
     renderProductsByGenre(products)
   } catch (error) {
