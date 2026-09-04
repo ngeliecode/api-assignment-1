@@ -1,4 +1,4 @@
-import { fetchProducts } from '../api'
+import { fetchProducts } from '../../api'
 
 export const initSearch = () => {
   const header = document.querySelector('header')

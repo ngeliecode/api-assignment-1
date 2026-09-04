@@ -1,4 +1,4 @@
-import { fetchProducts } from '../api'
+import { fetchProducts } from '../../api'
 
 export const initSort = () => {
   const sortMenu = document.querySelector<HTMLElement>('.sort-menu')
