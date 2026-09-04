@@ -1,4 +1,4 @@
-import { fetchProductsByGenre } from '../api'
+import { fetchProducts, fetchProductsByGenre } from '../api'
 
 export function renderProducts(products) {
   const productsContainer = document.querySelector<HTMLElement>('.products')
@@ -17,7 +17,7 @@ export function renderProducts(products) {
 
 export function renderGenres(genres) {
   const genreLinks = document.querySelector('.genres')
-  genreLinks.innerHTML = genres
+  genreLinks.innerHTML += genres
     .map(
       (genre) => `
         <button data-id="${genre.id}">
@@ -26,6 +26,12 @@ export function renderGenres(genres) {
       `,
     )
     .join('')
+
+  // Extract later?
+  const showAllGenresBtn = document.querySelector<HTMLButtonElement>('.all')
+  showAllGenresBtn.addEventListener('click', () => {
+    fetchProducts()
+  })
 
   genreLinks.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (event) => {

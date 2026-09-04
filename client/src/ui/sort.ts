@@ -1,12 +1,6 @@
 import { fetchProducts } from '../api'
 
 export const initSort = () => {
-  // Hör till kategorinavigationen?
-  const showAllGenresBtn = document.querySelector<HTMLButtonElement>('.all')
-  showAllGenresBtn.addEventListener('click', () => {
-    fetchProducts()
-  })
-
   const sortMenu = document.querySelector<HTMLElement>('.sort-menu')
 
   const openSortMenuBtn = document.querySelector<HTMLButtonElement>('.sort')
