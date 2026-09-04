@@ -17,7 +17,7 @@ export const getAllGenres = async (req: Request, res: Response) => {
   }
 }
 
-export const getProductsByGenre = async (req: Request, res: Response) => {
+export const fetchProductsByGenre = async (req: Request, res: Response) => {
   const id = req.params.id
 
   try {

@@ -1,10 +1,10 @@
-import { getProducts } from '../api'
+import { fetchProducts } from '../api'
 
 export const initSort = () => {
   // Hör till kategorinavigationen?
   const showAllGenresBtn = document.querySelector<HTMLButtonElement>('.all')
   showAllGenresBtn.addEventListener('click', () => {
-    getProducts()
+    fetchProducts()
   })
 
   const sortMenu = document.querySelector<HTMLElement>('.sort-menu')
@@ -40,7 +40,7 @@ export const initSort = () => {
       // Klick på applicera-knappen
       const apply = document.querySelector('.apply')
       apply.addEventListener('click', () => {
-        getProducts('', sort)
+        fetchProducts('', sort)
 
         sortMenu.classList.remove('open')
       })

@@ -1,4 +1,4 @@
-import { getProducts } from '../api'
+import { fetchProducts } from '../api'
 
 export const initSearch = () => {
   const header = document.querySelector('header')
@@ -22,5 +22,5 @@ searchForm.addEventListener('submit', (event) => {
   const searchInput = document.querySelector('#search') as HTMLInputElement
   const search = searchInput.value
 
-  getProducts(search, '')
+  fetchProducts(search, '')
 })

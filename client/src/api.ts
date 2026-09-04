@@ -1,11 +1,19 @@
 import { renderProducts } from './ui/renderProducts'
 
-export const getProducts = async (search = '', sort = '') => {
-  const response = await fetch(
-    `http://localhost:3000/products?search=${search}&sort=${sort}`,
-  )
-  const products = await response.json()
-  renderProducts(products)
+const productsElement = document.querySelector('.products')
+
+export const fetchProducts = async (search = '', sort = '') => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/products?search=${search}&sort=${sort}`,
+    )
+    const products = await response.json()
+    renderProducts(products)
+  } catch (error) {
+    productsElement.innerHTML =
+      'Opps something when wrong. Please try again later!'
+    console.log(error)
+  }
 }
 
 export const getGenres = async () => {
@@ -21,14 +29,14 @@ export const getGenres = async () => {
     button.addEventListener('click', (event) => {
       event.preventDefault()
 
-      getProductsByGenre(genre.id.toString())
+      fetchProductsByGenre(genre.id.toString())
     })
 
     genreLinks.append(button)
   })
 }
 
-export const getProductsByGenre = async (genreId: string) => {
+export const fetchProductsByGenre = async (genreId: string) => {
   const response = await fetch(
     `http://localhost:3000/genres/${genreId}/products`,
   )
