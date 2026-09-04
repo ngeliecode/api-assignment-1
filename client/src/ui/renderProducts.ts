@@ -1,4 +1,4 @@
-export const renderProducts = (products) => {
+export function renderProducts(products) {
   const productsContainer = document.querySelector<HTMLElement>('.products')
 
   productsContainer.innerHTML = ''
