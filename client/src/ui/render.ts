@@ -17,33 +17,36 @@ export function renderProducts(products) {
 
 export function renderGenres(genres) {
   const genreLinks = document.querySelector('.genres')
+  genreLinks.innerHTML = genres
+    .map(
+      (genre) => `
+        <button data-id="${genre.id}">
+          ${genre.name}
+        </button>
+      `,
+    )
+    .join('')
 
-  genres.forEach((genre) => {
-    const button = document.createElement('button')
-    button.textContent = genre.name
-    button.dataset.id = genre.id.toString()
+  genreLinks.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (event) => {
       event.preventDefault()
 
-      fetchProductsByGenre(genre.id.toString())
+      fetchProductsByGenre(button.dataset.id)
     })
-
-    genreLinks.append(button)
   })
 }
 
 export function renderProductsByGenre(products) {
   const productsContainer = document.querySelector('.products')
-
-  productsContainer.innerHTML = ''
-
-  products.forEach((product) => {
-    productsContainer.innerHTML += `
-      <div class="product">
-        <img src="${product.image}" alt="${product.title}">
-        <h2>${product.title}</h2>
-        <p>${Number(product.price)} kr</p>
-      </div>
-    `
-  })
+  productsContainer.innerHTML = products
+    .map(
+      (product) => `
+        <div class="product">
+          <img src="${product.image}" alt="${product.title}">
+          <h2>${product.title}</h2>
+          <p>${Number(product.price)} kr</p>
+        </div>
+      `,
+    )
+    .join('')
 }
