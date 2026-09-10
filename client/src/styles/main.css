@@ -104,36 +104,6 @@ header svg {
   width: 1.7rem;
 }
 
-header.search-open > *:not(.search-form) {
-  display: none;
-}
-
-header.search-open .search-form {
-  display: flex;
-  width: 100%;
-}
-
-.close-search {
-  background-color: inherit;
-  border: none;
-}
-
-.search-form {
-  display: none;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.search-input {
-  width: 100%;
-  padding: 0.8rem;
-  border: 1px solid black;
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 400;
-  letter-spacing: 0.05rem;
-}
-
 header .icons {
   display: flex;
   gap: 1.2rem;
@@ -455,13 +425,6 @@ footer form {
     font-size: 3rem;
   }
 
-  .search-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1.5rem;
-  }
-
   nav a {
     font-size: 1.45rem;
   }
@@ -495,22 +458,6 @@ footer form {
 
   nav a:hover {
     border-bottom: 1px solid black;
-  }
-
-  .search-form {
-    margin-bottom: 1rem;
-  }
-
-  .search {
-    width: 40rem;
-    padding: 1rem;
-    font-size: 1rem;
-    background-color: inherit;
-    border: 1px solid black;
-  }
-
-  .search:focus {
-    outline: none;
   }
 
   nav .sort {

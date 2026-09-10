@@ -8,11 +8,9 @@ const API_URL = 'http://localhost:3000'
 const PRODUCTS_URL = API_URL + '/products'
 const GENRES_URL = API_URL + '/genres'
 
-export const fetchProducts = async (search = '', sort = '') => {
+export const fetchProducts = async (sort = '') => {
   try {
-    const response = await fetch(
-      PRODUCTS_URL + `?search=${search}&sort=${sort}`,
-    )
+    const response = await fetch(PRODUCTS_URL + `?sort=${sort}`)
     const products = await response.json()
 
     renderProducts(products)
