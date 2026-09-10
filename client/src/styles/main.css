@@ -1,12 +1,13 @@
 @import 'reset.css';
 
 :root {
-  --color-black: #000;
+  --color-black: #3e475c;
+  /* --color-black: #486165; */
   --color-white: #fff;
-  --color-oyster: #8dc9f7;
-  --color-rhubarb: #d7866b;
+  --color-background: #8dc9f7;
+  --color-rhubarb: #f69c5d;
   --color-cheesecake: #f5e1ad;
-  --color-pumpkin: #ff6800;
+  --color-pumpkin: #ef7252;
   --color-roast: #552f0f;
   --color-pea: #85be00;
   --color-latte: #ddcdae;
@@ -15,6 +16,7 @@
   --font-sans: 'Montserrat', sans-serif;
   --font-serif: 'Cormorant Infant', serif;
   --font-heading: 'Amarante', cursive;
+  --font-mono: 'monospace';
   --font-button:
     'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
@@ -39,7 +41,7 @@ main {
 }
 header {
   padding-bottom: 0.5rem;
-  padding-top: 1rem;
+  padding-top: 2rem;
 }
 main {
   margin-bottom: 1rem;
@@ -51,7 +53,7 @@ footer {
 body {
   min-height: 100vh;
   font-family: monospace;
-  background-color: var(--color-oyster);
+  background-color: var(--color-background);
 }
 
 header {
@@ -63,6 +65,7 @@ header {
 
 h1 {
   font-family: var(--font-heading);
+  font-size: 2.6rem;
   font-weight: 300;
   font-style: normal;
   text-transform: uppercase;
@@ -78,29 +81,8 @@ h1 .bokhandel {
   align-items: end;
 }
 
-h1 .bokhandel span:nth-child(1) {
-  font-size: 1.9rem;
-}
-h1 .bokhandel span:nth-child(2) {
-  font-size: 2.5rem;
-}
-h1 .bokhandel span:nth-child(3) {
-  font-size: 3rem;
-}
-h1 .bokhandel span:nth-child(4) {
-  font-size: 3.2rem;
-}
-h1 .bokhandel span:nth-child(5) {
-  font-size: 2.4rem;
-}
-
 header svg {
   width: 1.7rem;
-}
-
-header .icons {
-  display: flex;
-  gap: 1.2rem;
 }
 
 nav {
@@ -116,8 +98,12 @@ nav .sort {
   text-transform: lowercase;
   letter-spacing: 0.1rem;
   color: inherit;
+  border-bottom: 1px solid var(--color-background);
 }
 
+.genres button:hover {
+  border-bottom: 1px solid var(--color-black);
+}
 .genres button:focus {
   border-bottom: 1px solid var(--color-black);
 }
@@ -125,7 +111,7 @@ nav .sort {
 nav .genres {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem 2.3rem;
+  gap: 0.6rem 2rem;
   align-items: center;
   padding-block: 1rem 2rem;
 }
