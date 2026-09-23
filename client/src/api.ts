@@ -4,7 +4,7 @@ import {
   renderProductsByGenre,
 } from './ui/render'
 
-const API_URL = 'http://localhost:3000'
+const API_URL = 'https://api-assignment-1-ten.vercel.app'
 const PRODUCTS_URL = API_URL + '/products'
 const GENRES_URL = API_URL + '/genres'
 
