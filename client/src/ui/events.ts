@@ -2,15 +2,23 @@ import { fetchProducts, fetchProductsByGenre } from '../api'
 
 export function addEvents() {
   const showAllGenresBtn = document.querySelector<HTMLButtonElement>('.all')
+  const genreButtons = document.querySelector('.genres')
+
+  if (!showAllGenresBtn || !genreButtons) {
+    return
+  }
+
   showAllGenresBtn.addEventListener('click', () => {
     fetchProducts()
   })
 
-  const genreButtons = document.querySelector('.genres')
   genreButtons.querySelectorAll('button').forEach((button) => {
     const genreId = button.dataset.id
-    button.addEventListener('click', () => {
-      fetchProductsByGenre(genreId)
-    })
+
+    if (genreId) {
+      button.addEventListener('click', () => {
+        fetchProductsByGenre(genreId)
+      })
+    }
   })
 }

@@ -1,7 +1,25 @@
 import { addEvents } from '../ui/events'
 
-export function renderProducts(products) {
+interface Product {
+  id: number
+  title: string
+  author: string
+  image: string
+  price: number
+}
+
+interface Genre {
+  id: number
+  name: string
+}
+
+export function renderProducts(products: Product[]) {
   const productsContainer = document.querySelector<HTMLElement>('.products')
+
+  if (!productsContainer) {
+    return
+  }
+
   productsContainer.innerHTML = products
     .map(
       (product) => `     
@@ -15,8 +33,13 @@ export function renderProducts(products) {
     .join('')
 }
 
-export function renderGenres(genres) {
+export function renderGenres(genres: Genre[]) {
   const genreLinks = document.querySelector('.genres')
+
+  if (!genreLinks) {
+    return
+  }
+
   genreLinks.innerHTML += genres
     .map(
       (genre) => `
@@ -30,8 +53,13 @@ export function renderGenres(genres) {
   addEvents()
 }
 
-export function renderProductsByGenre(products) {
+export function renderProductsByGenre(products: Product[]) {
   const productsContainer = document.querySelector('.products')
+
+  if (!productsContainer) {
+    return
+  }
+
   productsContainer.innerHTML = products
     .map(
       (product) => `

@@ -2,13 +2,17 @@ import { fetchProducts } from '../../api'
 
 export const initSort = () => {
   const sortMenu = document.querySelector<HTMLElement>('.sort-menu')
-
   const openSortMenuBtn = document.querySelector<HTMLButtonElement>('.sort')
+  const closeSortMenuBtn = document.querySelector('.close-sort')
+
+  if (!sortMenu || !openSortMenuBtn || !closeSortMenuBtn) {
+    return
+  }
+
   openSortMenuBtn.addEventListener('click', () => {
     sortMenu.classList.add('open')
   })
 
-  const closeSortMenuBtn = document.querySelector('.close-sort')
   closeSortMenuBtn.addEventListener('click', () => {
     sortMenu.classList.remove('open')
   })
@@ -31,13 +35,15 @@ export const initSort = () => {
       // Läs av värdet
       const sort = button.dataset.sort
 
-      // Klick på applicera-knappen
       const apply = document.querySelector('.apply')
-      apply.addEventListener('click', () => {
-        fetchProducts('', sort)
 
-        sortMenu.classList.remove('open')
-      })
+      if (apply) {
+        apply.addEventListener('click', () => {
+          fetchProducts(sort)
+
+          sortMenu.classList.remove('open')
+        })
+      }
     })
   })
 }

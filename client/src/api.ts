@@ -16,8 +16,12 @@ export const fetchProducts = async (sort = '') => {
     renderProducts(products)
   } catch (error) {
     const productsElement = document.querySelector('.products')
-    productsElement.innerHTML =
-      'Opps something when wrong. Please try again later!'
+
+    if (productsElement) {
+      productsElement.innerHTML =
+        'Opps something when wrong. Please try again later!'
+    }
+
     console.log(error)
   }
 }
